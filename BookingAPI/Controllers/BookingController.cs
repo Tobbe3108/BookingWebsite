@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BookingAPI.Models.Requests;
 using BookingAPI.Producers;
 using Microsoft.AspNetCore.Mvc;
+using Models.Requests;
 
 namespace BookingAPI.Controllers
 {

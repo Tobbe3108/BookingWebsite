@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BookingAPI.Models.Requests
+namespace Models.Requests
 {
   public class CancelBookingRequest
   {

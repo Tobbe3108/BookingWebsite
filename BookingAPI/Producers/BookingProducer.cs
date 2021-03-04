@@ -1,39 +1,36 @@
 ﻿using System;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using BookingAPI.Models.Requests;
-using RabbitMQ.Client;
+using Models.Requests;
+using RawRabbit.vNext;
+using RawRabbit.vNext.Disposable;
 
 namespace BookingAPI.Producers
 {
   public class BookingProducer
   {
-    private readonly IModel? _channel;
+    private readonly IBusClient _client;
 
     public BookingProducer()
-    {
-      var factory = new ConnectionFactory() { HostName = "localhost" };
-      var connection = factory.CreateConnection();
-      _channel = connection.CreateModel();
-      _channel.ExchangeDeclare("topic_logs","topic");
+    {      
+      _client = BusClientFactory.CreateDefault();
     }
     public async Task PublishBookingRequest(BookingRequest bookingRequest)
-    {
-      using var channel = _channel;
-      _channel.BasicPublish("topic_logs",
-        "booking.booked",
-        null,
-        Encoding.UTF8.GetBytes(JsonSerializer.Serialize(bookingRequest)));
+    {     
+      await _client.PublishAsync(bookingRequest, 
+        Guid.NewGuid(), 
+        cfg => cfg
+          .WithExchange(cfgExchange => cfgExchange.WithName("booking_exchange"))
+          .WithRoutingKey("booking.booked"));
     }
 
     public async Task PublishCancelBookingRequest(CancelBookingRequest cancelBookingRequest)
     {
-      using var channel = _channel;
-      _channel.BasicPublish("topic_logs",
-        "booking.cancelled",
-        null,
-        Encoding.UTF8.GetBytes(JsonSerializer.Serialize(cancelBookingRequest)));
+      await _client.PublishAsync(cancelBookingRequest, 
+        Guid.NewGuid(), 
+        cfg => cfg
+          .WithExchange(e => e
+            .WithName("booking_exchange"))
+          .WithRoutingKey("booking.cancel"));
     }
   }
 }

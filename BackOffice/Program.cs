@@ -1,38 +1,32 @@
 ﻿using System;
-using System.Text;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
+using Autofac;
+using RawRabbit.DependencyInjection.Autofac;
+using RawRabbit.vNext;
 
 namespace BackOffice
 {
   internal static class Program
   {
+    private static IContainer Container { get; set; }
     public static void Main()
     {
-      var factory = new ConnectionFactory { HostName = "localhost" };
-      using var connection = factory.CreateConnection();
-      using var channel = connection.CreateModel();
-      channel.ExchangeDeclare("topic_logs", "topic");
-      var queueName = channel.QueueDeclare().QueueName;
+      var builder = new ContainerBuilder();
+      builder.RegisterRawRabbit("guest:guest@localhost:5672/");
+      Container = builder.Build();
       
-      channel.QueueBind(queueName,"topic_logs", "booking.*");
-
-      Console.WriteLine(" [*] Waiting for messages. To exit press CTRL+C");
-
-      var consumer = new EventingBasicConsumer(channel);
-      consumer.Received += (model, ea) =>
+      var client = BusClientFactory.CreateDefault();
+      client.SubscribeAsync<object>(async (msg, context) =>
       {
-        var body = ea.Body.ToArray();
-        var message = Encoding.UTF8.GetString(body);
-        var routingKey = ea.RoutingKey;
-        Console.WriteLine(" [x] Received '{0}':'{1}'",
-          routingKey,
-          message);
-      };
-      channel.BasicConsume(queueName, true, consumer);
-
-      Console.WriteLine(" Press [enter] to exit.");
-      Console.ReadLine();
+        Console.WriteLine($"Received: {msg}.");
+      }, cfg => 
+        cfg.WithExchange(e => e
+            .WithName("booking_exchange"))
+          .WithQueue(q => q
+            .WithName("booking")
+            .WithArgument("x-dead-letter-exchange", "dlx_exchange")
+            .WithArgument("x-dead-letter-routing-key", "dlx_key")
+            .WithArgument("x-max-length", 1))
+          .WithRoutingKey("booking"));
     }
   }
 }

@@ -1,4 +1,4 @@
-﻿namespace BookingAPI.Models.Requests
+﻿namespace Models.Requests
 {
   public class BookingRequest
   {

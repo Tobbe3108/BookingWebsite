@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using RawRabbit.DependencyInjection.Autofac;
 
 namespace BookingAPI
 {
@@ -35,6 +36,7 @@ namespace BookingAPI
     public void ConfigureContainer(ContainerBuilder builder)
     {
       builder.RegisterType<BookingProducer>();
+      builder.RegisterRawRabbit("guest:guest@localhost:5672/");
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

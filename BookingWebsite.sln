@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "EmailServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackOffice", "BackOffice\BackOffice.csproj", "{44526F8C-554C-4E23-959B-61129DA9200C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminApp", "AdminApp\AdminApp.csproj", "{E7BF801F-D3EA-4CAF-A2D5-E5AAABAC1515}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{B9DC2819-3512-4BCA-AE93-1B25D417A92E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{44526F8C-554C-4E23-959B-61129DA9200C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44526F8C-554C-4E23-959B-61129DA9200C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44526F8C-554C-4E23-959B-61129DA9200C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7BF801F-D3EA-4CAF-A2D5-E5AAABAC1515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7BF801F-D3EA-4CAF-A2D5-E5AAABAC1515}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7BF801F-D3EA-4CAF-A2D5-E5AAABAC1515}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7BF801F-D3EA-4CAF-A2D5-E5AAABAC1515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9DC2819-3512-4BCA-AE93-1B25D417A92E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9DC2819-3512-4BCA-AE93-1B25D417A92E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9DC2819-3512-4BCA-AE93-1B25D417A92E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9DC2819-3512-4BCA-AE93-1B25D417A92E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
